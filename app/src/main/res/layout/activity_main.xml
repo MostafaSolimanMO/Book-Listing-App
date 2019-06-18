@@ -1,32 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <View
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="62dp"
-            android:background="#1d3156" />
+            android:layout_height="wrap_content">
 
-        <android.support.v7.widget.SearchView
-            android:id="@+id/Key_word"
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="62dp"
+                android:background="@color/darkBlue" />
+
+            <android.support.v7.widget.SearchView
+                android:id="@+id/Search_key"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginRight="8dp"
+                android:background="@drawable/edit_text_style"
+                android:padding="10dp"
+                android:theme="@style/MyEditText" />
+
+        </RelativeLayout>
+
+        <ListView
+            android:id="@+id/list"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="8dp"
             android:layout_marginRight="8dp"
             android:background="@drawable/edit_text_style"
-            android:padding="10dp"
-            android:theme="@style/MyEditText" />
-
-    </RelativeLayout>
-
+            android:divider="@null"
+            android:dividerHeight="0dp"
+            android:orientation="vertical" />
+    </LinearLayout>
 
 </RelativeLayout>
