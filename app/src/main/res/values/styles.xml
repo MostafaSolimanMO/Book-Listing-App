@@ -7,6 +7,7 @@
         <item name="colorAccent">@color/darkBlue</item>
     </style>
     <style name="MyEditText" parent="Theme.AppCompat.Light">
+        <item name="editTextColor">@color/darkBlue</item>
         <item name="colorControlNormal">@color/darkBlue</item>
         <item name="colorControlActivated">@color/darkBlue</item>
     </style>
