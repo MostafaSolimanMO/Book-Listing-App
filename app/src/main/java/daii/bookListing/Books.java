@@ -17,7 +17,6 @@ public class Books {
     public String getmAuthor() {
         return mAuthor;
     }
-
     public String getmImageUrl() {
         return mImageUrl;
     }
