@@ -6,6 +6,10 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -19,7 +23,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements android.support.v4.app.LoaderManager.LoaderCallbacks<List<Books>> {
 
     private BooksAdapter mAdapter;
     private String mUrlGoogleBooks = "";
@@ -51,7 +55,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        final EditText searchEdit = findViewById(R.id.Search_key);
         ImageButton searchButton = findViewById(R.id.Search_Button);
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,8 +66,9 @@ public class MainActivity extends AppCompatActivity {
 
                     notBooksAvailable.setVisibility(View.GONE);
                     mProgressBar.setVisibility(View.VISIBLE);
-                    BooksAsyncTask task = new BooksAsyncTask();
-                    task.execute(updateQueryUrl(searchEdit.getText().toString()));
+                    LoaderManager loaderManager = getSupportLoaderManager();
+                    loaderManager.initLoader(1, null, MainActivity.this);
+                    getSupportLoaderManager().restartLoader(1, null, MainActivity.this);
 
                 } else if (conMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.DISCONNECTED
                         || conMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.DISCONNECTED) {
@@ -75,36 +79,33 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private String updateQueryUrl(String searchWord) {
+    @Override
+    public Loader<List<Books>> onCreateLoader(int i, Bundle bundle) {
+        EditText searchEdit = findViewById(R.id.Search_key);
+        String searchWord = searchEdit.getText().toString();
         if (searchWord.contains(" ")) {
             searchWord = searchWord.replace(" ", "+");
         }
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("https://www.googleapis.com/books/v1/volumes?q=").append(searchWord).append("&filter=paid-ebooks");
+        stringBuilder.append("https://www.googleapis.com/books/v1/volumes?q=").append(searchWord).append("&filter=ebooks");
         mUrlGoogleBooks = stringBuilder.toString();
-        return mUrlGoogleBooks;
+        return new BookLoader(this, mUrlGoogleBooks);
     }
 
-    private class BooksAsyncTask extends AsyncTask<String, Void, List<Books>> {
-
-        @Override
-        protected List<Books> doInBackground(String... urls) {
-            if (urls.length < 1 || urls[0] == null) {
-                return null;
-            }
-            List<Books> result = QueryUntiles.fetchBooksData(urls[0]);
-            return result;
-        }
-
-        @Override
-        protected void onPostExecute(List<Books> data) {
-            mProgressBar.setVisibility(View.GONE);
-            mAdapter.clear();
-            if (data != null && !data.isEmpty()) {
-                mAdapter.addAll(data);
-            }
+    @Override
+    public void onLoadFinished(Loader<List<Books>> loader, List<Books> data) {
+        mProgressBar.setVisibility(View.GONE);
+        mAdapter.clear();
+        if (data != null && !data.isEmpty()) {
+            mAdapter.addAll(data);
         }
     }
+
+    @Override
+    public void onLoaderReset(Loader<List<Books>> loader) {
+        mAdapter.clear();
+    }
+
 }
 
 
