@@ -113,10 +113,10 @@ public class QueryUntiles {
                 } else {
                     author = "* missing info of authors *";
                 }
-                JSONObject saleInfo = currentItem.getJSONObject("saleInfo");
-                String buyLink = (String) saleInfo.get("buyLink");
+                JSONObject webLink = currentItem.getJSONObject("accessInfo");
+                String webReaderLink = webLink.getString("webReaderLink");
 
-                Books book = new Books(title, author, buyLink);
+                Books book = new Books(title, author, webReaderLink);
                 books.add(book);
             }
 
