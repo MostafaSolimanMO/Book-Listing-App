@@ -87,7 +87,8 @@ public class MainActivity extends AppCompatActivity implements android.support.v
             searchWord = searchWord.replace(" ", "+");
         }
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("https://www.googleapis.com/books/v1/volumes?q=").append(searchWord).append("&filter=ebooks");
+        stringBuilder.append("https://www.googleapis.com/books/v1/volumes?q=").append(searchWord).append("&key=AIzaSyAtTK_sbQdheneAK6DGdCz-Y1Rpff5NK_E");
+
         mUrlGoogleBooks = stringBuilder.toString();
         return new BookLoader(this, mUrlGoogleBooks);
     }
