@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements android.support.v
         mProgressBar.setVisibility(View.INVISIBLE);
 
         notBooksAvailable = findViewById(R.id.empty_view);
-        notBooksAvailable.setText("Not book available");
+        notBooksAvailable.setText("No books available");
         notBooksAvailable.setVisibility(View.VISIBLE);
 
         ListView listView = findViewById(R.id.list);
